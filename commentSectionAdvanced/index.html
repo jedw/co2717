@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+<title>Comment Section</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="shortcut icon" href="favicon.png">
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	var newComment, dataString;
+
+	function read(){
+		$.ajax({
+			url: "backend.php?mode=read",
+			success: function(data){
+				$("#comments").html("")
+				$.each(data, function(i, item) {
+					$("#comments").append('<div class="comment">'+item.comment+'<br>'+
+					'<button class="deletebutton" value="'+item.id+'">Delete</button>'+
+					'</div>');
+				});
+			},
+			datatype: "json"
+		})
+	}
+
+	read()
+
+	$("#addComment").click(function(){
+		newComment = $("#myComment").val();
+		$("#comments").append('<div class="comment">'+newComment+'</div>');
+		dataString = "com="+newComment;
+		$.ajax({
+			url: "backend.php?mode=insert",
+			type: "POST",
+			data: dataString,
+			success: function(data){
+				console.log('insert success');
+				read()
+			}			
+		});
+		$("#myComment").val("")
+	});
+
+	$(document).on("click",".deletebutton", function(){
+		var deleteid = $(this).val()
+		$.ajax({
+			url: "backend.php?mode=delete&id="+deleteid,
+			success: function(data){
+				console.log('delete success');
+			}
+		})
+		$(this).parent().remove()
+	})
+});
+</script>
+<style>
+header{
+	background-color: #46B;
+	color: #fff;
+}
+
+p,h1,h2,h3{
+	font-family:"Stone sans", sans-serif;
+}
+
+h1{
+	font-size:4em;
+	font-weight: bold;
+}
+
+.comment{
+	font-family:sans-serif;
+	margin-top:1em;
+	background-color: #EEF;
+	color: #444;
+	padding:10px;
+}
+
+.post .post_user{
+	font-family:sans-serif;
+	font-style:italic;
+}
+
+.post .post_body{
+	font-family:sans-serif;	
+}
+
+.deletebutton{
+	margin:auto 90% 0%;
+}
+
+textarea{
+	border-radius: 10px;
+	padding:10px;
+}
+
+button{
+	border-radius: 3px;
+	background:#46B;
+	color:#fff;
+	border: none;
+	padding:5px;
+}
+
+button:hover{
+	background:#68B;
+}
+</style>
+</head>
+<body>
+	<header>
+		<h1>Faceache</h1>
+	</header>
+	<div class="container">
+		<div class="post">
+			<h2 class="post_user">Billy Bob Nugget has just posted..</h2>
+			<h3 class="post_body">"Jonathan is great, CO2714 is the best module!"</h3>
+			<div id="comments">
+				<!-- comments will be added here -->
+			</div>
+			<p>Add your comment below :</p>
+			<textarea id="myComment" rows="6" cols="50"></textarea>
+			<br>
+			<button id="addComment">Comment</button>
+		</div>
+	</div>
+</body>
+</html>

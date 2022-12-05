@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<style>
+    li{
+        color:#fff;
+        padding:0.67em;
+    }
+    li:nth-child(odd) {
+        background: #6272a4;
+    }
+    li:nth-child(even) {
+        background: #44475a;
+    }
+</style>
+<title>Leaderboard</title>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <div style="width:100%">
+        <div style="width:25%; float:left;">
+            <h2>League 1</h2>
+            <ul id="leaderboard1">
+            </ul>
+        </div>
+        <div style="width:25%; float:left;">
+            <h2>League 2</h2>
+            <ul id="leaderboard2">
+            </ul>
+        </div>
+        <div style="width:25%; float:left;">
+            <h2>League 3</h2>
+            <ul id="leaderboard3">
+            </ul>
+        </div>
+        <div style="width:25%; float:left;">
+            <h2>League 4</h2>
+            <ul id="leaderboard4">
+            </ul>
+        </div>
+    </div>
+   
+
+    <script>
+        $.ajax({
+            url: "4wc.php?url=http://uclan.villach.city/api/leaderboard",
+            type: "GET",
+            success: function(data){
+                $.each(data, function(i, item) {
+                    if(item.league == 1)
+                    {
+                        $("#leaderboard1").append('<li>' + item.teamCode + ': ' + item.teamName + ' ... ' + item.score + '</li>');
+                    }
+                    else if (item.league == 2)
+                    {
+                        $("#leaderboard2").append('<li>' + item.teamCode + ': ' + item.teamName + ' ... ' + item.score + '</li>');
+                    }
+                    else if (item.league == 3)
+                    {
+                        $("#leaderboard3").append('<li>' + item.teamCode + ': ' + item.teamName + ' ... ' + item.score + '</li>');
+                    }
+                    else if (item.league == 4)
+                    {
+                        $("#leaderboard4").append('<li>' + item.teamCode + ': ' + item.teamName + ' ... ' + item.score + '</li>');
+                    }
+                    
+                });
+            }
+        })
+    </script>
+</body>
+</html>

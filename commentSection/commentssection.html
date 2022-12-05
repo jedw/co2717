@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+<title>Faceache</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="http://fonts.cdnfonts.com/css/stone-sans" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	var userInput, newComment;
+
+	$.ajax({
+		url: "backend.php",
+		type: "GET",
+		success: function(data){
+			$.each(data, function(i, item) {
+				$("#comments").append('<div class="comment">'+item.comment+'</div>');
+			});
+		},
+		datatype: "json"
+	})
+	
+	$("#addComment").click(function(){
+		userInput = $("#myComment").val();
+		newComment = '<div class="comment">'+userInput+'</div>'
+		$("#comments").append(newComment);
+		var dataString = "com="+userInput;
+		$.ajax({
+			url: "backend.php",
+			type: "POST",
+			data: dataString,
+			success: function(data){
+				console.log('success');
+			}			
+		});
+	});
+});
+</script>
+<style>
+	header{
+		background-color: #46B;
+		color: #fff;
+	}
+
+	p,h1,h2,h3{
+		font-family:"Stone sans", sans-serif;
+	}
+
+	h1{
+		font-size:4em;
+		font-weight: bold;
+	}
+
+	.comment{
+		font-family:sans-serif;
+		margin-top:1em;
+		background-color: #EEF;
+		color: #444;
+		padding:10px;
+	}
+
+	.post{
+		font-family:sans-serif;
+		font-style:italic;
+	}
+
+	textarea {
+		border-radius: 10px;
+		padding:10px;
+	}
+
+	button {
+		border-radius: 3px;
+		background:#46B;
+		color:#fff;
+		border: none;
+		padding:5px;
+	}
+
+	button:hover{
+		background:#68B;
+	}
+</style>
+</head>
+	<body>
+		<header>
+			<h1>Faceache</h1>
+		</header>
+		<div class="container">
+			<h2>Billy Bob Nugget has just posted..</h2>
+			<div class="post">
+				<h3>"Jonathan is great, CO2714 is the best module!"</h3>
+			</div>
+			<div id="comments">
+				<!-- comments will be added here -->
+			</div>
+			<p>Add your comment below :</p>
+			<textarea id="myComment" rows="6" cols="50"></textarea>
+			<br>
+			<button id="addComment">Comment</button>
+		</div>
+	</body>
+</html>

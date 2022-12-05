@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        axios.get('./retrieveListItems.php')
+        .then(function (response){
+            response.data.forEach(function(item){
+                document.getElementById("myList").insertAdjacentHTML("beforeend",
+                    '<li>'+item.thing+'</li>'
+                )
+            })
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+		<h1>Live list demo</h1>
+		<ul id="myList">
+			<!-- items will be added here -->
+		</ul>
+		
+		<input type="text" id="newItem"/>
+		<button id="addItem">Add Item</button>
+		</div>
+</body>
+</html>

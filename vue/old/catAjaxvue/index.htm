@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+<script src="../vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<title>Vuetest</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+    li{
+        list-style:none;
+    }
+</style>
+</head>
+
+<body >
+<div class="container">
+<div id="root">
+    <h1 class="display-3">Cats:</h1>
+    <table class="table">
+        <tr v-for="cat in cats"><td>{{cat}}</td></tr>
+    </table>
+    <button class="btn btn-primary" v-on:click="getCats">Click me to find cats</button>    
+</div>
+</div>
+<script>
+var app = new Vue({
+    el:'#root',
+    data:{
+            cats: ["fred"]
+    },    
+    methods:{
+        getCats: function(){
+            var local;
+            $.ajax({
+                url: "cat.php", 
+                async:false,
+                success: function(data){
+                    local = data;
+                },
+                dataType:"json"
+            });  
+            this.cats = local;
+        }
+    }            
+})
+                    
+
+</script>
+</body>
+</html>
