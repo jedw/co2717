@@ -10,14 +10,4 @@ class AjaxModel extends Model{
     protected $allowedFields = ['id', 'thing'];
     protected $returnType = 'array';
 
-    public function getAllThings()
-    {
-        $things = $this->findAll();
-        return $things;
-    }
-
-    public function addNewThing($thing)
-    {
-       $this->insert($thing);
-    } 
 }

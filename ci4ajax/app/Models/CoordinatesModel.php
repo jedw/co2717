@@ -10,9 +10,4 @@ class CoordinatesModel extends Model{
     protected $allowedFields = ['id', 'team', 'lat', 'lon'];
     protected $returnType = 'array';
 
-    public function getCoords()
-    {
-        $coords = $this->findAll();
-        return $coords;
-    }
 }
