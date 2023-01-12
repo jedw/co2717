@@ -32,7 +32,7 @@ class Home extends BaseController
 	//returns things as JSON
 	public function things()
 	{
-		$response = $this->ajaxModel->getAllThings();
+		$response = $this->ajaxModel->findAll();
 		return $this->response->setJSON($response);
 	}
 
@@ -40,14 +40,14 @@ class Home extends BaseController
 	public function addthing()
 	{
 		$things['thing'] = $this->request->getPost('thing');
-		$this->ajaxModel->addNewThing($things);
+		$this->ajaxModel->insert($things);
 	}
 
 	//check username availability
 	public function checkUser()
 	{
 		$user = $this->request->getPost('uname');
-		$check = $this->checkUserModel->getUserWhere($user);
+		$check = $this->checkUserModel->where('username', $user)->first();
 
 		if ($check)
 		{
@@ -70,7 +70,7 @@ class Home extends BaseController
 			'username' => $this->request->getPost('uname'),
 			'password' => $this->request->getPost('pword')
 		];
-		$this->checkUserModel->addUser($user);
+		$this->checkUserModel->insert($user);
 		return redirect()->to(site_url().'/Home/register');
 	}
 
@@ -83,7 +83,7 @@ class Home extends BaseController
 	//return coordinates as JSON
 	public function coordinates()
 	{
-		$response = $this->coordinatesModel->getCoords();
+		$response = $this->coordinatesModel->findAll();
 		return $this->response->setJSON($response);
 	}
 
@@ -103,7 +103,9 @@ class Home extends BaseController
 	public function searchquery()
 	{
 		$searchstring = $this->request->getPost('searchstring');
-		$response = $this->searchModel->query($searchstring);
+		$response = $this->searchModel->like('firstname', $searchstring)
+			->orLike('surname',$searchstring)
+			->findAll();
 		return $this->response->setJSON($response);
 	}
 	//--------------------------------------------------------------------

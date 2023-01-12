@@ -13,10 +13,12 @@ class CheckUserModel extends Model{
     public function getUserWhere($username)
     {
         $data = $this->where('username', $username)->first();
-        if ($data){
+        if ($data)
+        {
             return TRUE;
         }
-        else{
+        else
+        {
             return FALSE;
         }
     }

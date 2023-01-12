@@ -17,7 +17,7 @@ class SearchModel extends Model{
             return NULL;
         }
         $results = $this->like('firstname', $searchString)
-            ->orLike('surname',$searchString)
+            ->orLike('surname', $searchString)
             ->findAll();
         return $results;
    }
